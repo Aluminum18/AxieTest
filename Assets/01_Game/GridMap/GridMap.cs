@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridMap : MonoSingleton<GridMap>
+[CreateAssetMenu(fileName = "MapSettings", menuName = "AxieTest/SetUp/MapSettings")]
+public class GridMap : ScriptableObject
 {
     [SerializeField]
     private Transform _zeroPoint;

@@ -21,6 +21,7 @@ public class CharacterSpawner : MonoBehaviour
     
     private void SpawnCharacterFollowingFormation(FormationDescription[] formation, GameObject characterTemplate)
     {
+        CharacterTracker tracker = CharacterTracker.Instance;
         for (int i = 0; i < formation.Length; i++)
         {
             var formationPart = formation[i];
@@ -28,7 +29,12 @@ public class CharacterSpawner : MonoBehaviour
             {
                 for (int x = formationPart.start.x; x <= formationPart.end.x; x++)
                 {
-                    Instantiate(characterTemplate, _gridMap.GetPosition(new Vector2Int(x, y)), Quaternion.identity);
+                    var character = Instantiate(characterTemplate, _gridMap.GetPosition(new Vector2Int(x, y)), Quaternion.identity);
+                    if (characterTemplate.GetInstanceID() != _defenderTemplate.GetInstanceID())
+                    {
+                        continue;
+                    }
+                    tracker.RegisterDefender(character.GetComponent<CharacterProperties>());
                 }
             }
         }
