@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "b4501332baa804066140a5a631fb6d1262b7fee6"
     },
+    "com.aluminum.restclient": {
+      "version": "https://github.com/Aluminum18/unity-lib.git?path=Assets/RestClient/Scripts/MainModules",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "0f9d4ddcc012edce06c03dcf8e5c800effb251db"
+    },
     "com.aluminum.sosystem": {
       "version": "https://github.com/Aluminum18/unity-lib.git?path=Assets/ScriptableObjectSystem/MainModules",
       "depth": 0,

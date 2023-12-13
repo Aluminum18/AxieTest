@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.aluminum.commonactions": "https://github.com/Aluminum18/unity-lib.git?path=Assets/Common/CommonActions",
+    "com.aluminum.restclient": "https://github.com/Aluminum18/unity-lib.git?path=Assets/RestClient/Scripts/MainModules",
     "com.aluminum.sosystem": "https://github.com/Aluminum18/unity-lib.git?path=Assets/ScriptableObjectSystem/MainModules",
     "com.aluminum.uicreator": "https://github.com/Aluminum18/UICreatorDotween.git?path=Assets/Scripts/MainModules",
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
