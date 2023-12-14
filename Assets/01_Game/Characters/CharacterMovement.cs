@@ -30,11 +30,9 @@ public class CharacterMovement : MonoBehaviour
     public void MoveTo(Vector2Int coordinate)
     {
         Vector3 destination = _gridMap.GetPosition(coordinate);
-        _movedTransform.DOMove(destination, _moveDuration).SetEase(_moveEase).OnComplete(() =>
-        {
-            _onMoved.Raise(_properties, _currentCoordinate, coordinate);
-            _currentCoordinate = coordinate;
-        });
+        _onMoved.Raise(_properties, _currentCoordinate, coordinate);
+        _currentCoordinate = coordinate;
+        _movedTransform.DOMove(destination, _moveDuration).SetEase(_moveEase);
     }
 
     public void LookAt(Vector2Int coordinate)

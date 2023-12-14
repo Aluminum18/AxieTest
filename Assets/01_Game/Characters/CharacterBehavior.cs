@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ public class CharacterBehavior : MonoBehaviour
 
     public void ScanTarget()
     {
-        if (_currentTarget != null && _currentTarget.gameObject.activeSelf)
+        if (_currentTarget != null && _currentTarget.isActiveAndEnabled)
         {
             return;
         }
@@ -57,8 +58,14 @@ public class CharacterBehavior : MonoBehaviour
         {
             return;
         }
+        // Move step should be executed after attack step to prevent attacking a moving character
+        NextFrame_MoveTowardTo(movement.CurrentCoordinate, targetMovement.CurrentCoordinate).Forget();
+    }
+    private async UniTaskVoid NextFrame_MoveTowardTo(Vector2Int from, Vector2Int to)
+    {
+        await UniTask.NextFrame();
 
-        Vector2Int[] nextPossibleCells = _map.GetNextPossibleCoordinates(movement.CurrentCoordinate, targetMovement.CurrentCoordinate);
+        Vector2Int[] nextPossibleCells = _map.GetNextPossibleCoordinates(from, to);
         var tracker = CharacterTracker.Instance;
         for (int i = 0; i < nextPossibleCells.Length; i++)
         {
@@ -72,7 +79,7 @@ public class CharacterBehavior : MonoBehaviour
 
     public void Attack()
     {
-        if (_currentTarget == null)
+        if (_currentTarget == null || !_currentTarget.isActiveAndEnabled)
         {
             return;
         }

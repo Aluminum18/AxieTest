@@ -90,7 +90,7 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
             return;
         }
         _characterMap.TryGetValue(to, out var toCellCharacter);
-        if (toCellCharacter != null)
+        if (toCellCharacter != null && toCellCharacter.isActiveAndEnabled)
         {
             Debug.LogError($"Invalid move from [{from}] to [{to}]");
             return;

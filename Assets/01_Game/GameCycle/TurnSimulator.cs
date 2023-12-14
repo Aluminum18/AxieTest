@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class TurnSimulator : MonoBehaviour
 {
-    [SerializeField]
-    private IntervalAction _interval;
-
     [Header("Events out")]
     [SerializeField]
     private GameEvent _onStartedATurn;
@@ -14,16 +11,6 @@ public class TurnSimulator : MonoBehaviour
     private GameEvent _onMiddleTurn;
     [SerializeField]
     private GameEvent _onEndedATurn;
-
-    public void StartTurnSimulator()
-    {
-        _interval.StartIntervalAction();
-    }
-
-    public void StopSimulator()
-    {
-        _interval.StopIntervalAction();
-    }
 
     public void StartATurn()
     {

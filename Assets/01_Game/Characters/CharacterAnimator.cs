@@ -33,6 +33,9 @@ public class CharacterAnimator : MonoBehaviour
     {
         string gene = await GetGene(_axieId);
         Mixer.SpawnSkeletonAnimation(_animator, _axieId, gene);
+
+        await UniTask.WaitUntil(() => _animator.SkeletonDataAsset != null);
+        _animator.state.SetAnimation(0, "action/idle/normal", true);
     }
 
     private async UniTask<string> GetGene(string axieId)
