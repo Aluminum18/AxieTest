@@ -15,6 +15,8 @@ public class CharacterProperties : MonoBehaviour
     public TeamId Team { get; private set; }
     [field: SerializeField]
     public IntegerVariable MaxHp { get; private set; }
+    [SerializeField]
+    private IntegerVariableToSlider _hpSlider;
     [field: SerializeField]
     public CharacterMovement Movement { get; private set; }
     [field: SerializeField]
@@ -23,8 +25,30 @@ public class CharacterProperties : MonoBehaviour
     public CharacterAnimator Animator { get; private set; }
 
     [field: Header("Runtime Setup")]
-    [field: SerializeField]
-    public int CurrentHp { get; set; }
+    [SerializeField]
+    private IntegerVariable _currentHp;
+    public int CurrentHp
+    {
+        get
+        {
+            if (_currentHp == null)
+            {
+                _currentHp = ScriptableObject.CreateInstance<IntegerVariable>();
+                _currentHp.Value = MaxHp.Value;
+            }
+            return _currentHp.Value;
+        }
+        set
+        {
+            if (_currentHp == null)
+            {
+                _currentHp = ScriptableObject.CreateInstance<IntegerVariable>();
+                _currentHp.Value = MaxHp.Value;
+            }
+            _currentHp.Value = value;
+        }
+    }
+
     [field: SerializeField]
     public int AttackRollValue { get; private set; }
 
@@ -38,5 +62,6 @@ public class CharacterProperties : MonoBehaviour
     {
         CurrentHp = MaxHp.Value;
         AttackRollValue = Random.Range(0, 3);
+        _hpSlider.Init(_currentHp);
     }
 }
