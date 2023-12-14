@@ -8,6 +8,9 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
     [Header("Reference - Read")]
     [SerializeField]
     private GridMap _gridMap;
+    [SerializeField]
+    private Vector3Variable _touchGroundPoint;
+
     [Header("Reference - Write")]
     [SerializeField]
     private IntegerVariable _attackTeamCount;
@@ -21,6 +24,8 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
     private GameEvent _onACharacterDissapeared;
 
     [Header("Inspec")]
+    [SerializeField]
+    private Vector2Int _touchCell;
     [SerializeField]
     private List<CharacterProperties> _defenseTeam;
     [SerializeField]
@@ -148,15 +153,22 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
         UpdateCharacterDissapearance(character, coordinate);
     }
 
+    private void UpdateTouchCell(Vector3 touchGroundPoint)
+    {
+        _touchCell = _gridMap.GetCoordinate(touchGroundPoint);
+    }
+
     private void OnEnable()
     {
         _onACharacterMoved.Subcribe(UpdateCharacterCoordinate);
         _onACharacterDissapeared.Subcribe(UpdateCharacterDissapearance);
+        _touchGroundPoint.OnValueChange += UpdateTouchCell;
     }
     private void OnDisable()
     {
         _onACharacterMoved.Unsubcribe(UpdateCharacterCoordinate);
         _onACharacterDissapeared.Unsubcribe(UpdateCharacterDissapearance);
+        _touchGroundPoint.OnValueChange -= UpdateTouchCell;
     }
 
     
