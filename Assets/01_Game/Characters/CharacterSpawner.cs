@@ -30,11 +30,16 @@ public class CharacterSpawner : MonoBehaviour
                 for (int x = formationPart.start.x; x <= formationPart.end.x; x++)
                 {
                     var character = Instantiate(characterTemplate, _gridMap.GetPosition(new Vector2Int(x, y)), Quaternion.identity);
-                    if (characterTemplate.GetInstanceID() != _defenderTemplate.GetInstanceID())
+                    var props = character.GetComponent<CharacterProperties>();
+                    Vector2Int coordinate = new(x, y);
+                    props.Movement.InitPosition(coordinate);
+                    if (props.Team == CharacterProperties.TeamId.Attack)
                     {
+                        tracker.RegisterAttacker(props, coordinate);
                         continue;
                     }
-                    tracker.RegisterDefender(character.GetComponent<CharacterProperties>());
+
+                    tracker.RegisterDefender(props, coordinate);
                 }
             }
         }

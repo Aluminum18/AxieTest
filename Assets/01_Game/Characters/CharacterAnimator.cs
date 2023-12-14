@@ -10,12 +10,17 @@ public class CharacterAnimator : MonoBehaviour
 {
     [SerializeField]
     private string _axieId;
-    [SerializeField]
-    private List<string> _animationNames;
 
     private SkeletonAnimation _animator;
-
     private string _geneSearchUrl = "https://graphql-gateway.axieinfinity.com/graphql";
+
+    // key = Id, value = gene
+    private static Dictionary<string, string> _cachedGenes = new();
+
+    public void ScaleX(float x)
+    {
+        _animator.skeleton.ScaleX = x;
+    }
 
     private void Start()
     {
@@ -32,6 +37,12 @@ public class CharacterAnimator : MonoBehaviour
 
     private async UniTask<string> GetGene(string axieId)
     {
+        _cachedGenes.TryGetValue(axieId, out var genes);
+        if (!string.IsNullOrEmpty(genes))
+        {
+            return genes;
+        }
+
         JObject jPayload = new()
         {
             new JProperty("query", "{ axie (axieId: \"" + axieId + "\") { id, genes, newGenes}}")
@@ -41,7 +52,7 @@ public class CharacterAnimator : MonoBehaviour
         var result = await RequestSenderAsync.SendPostRequest(_geneSearchUrl, uploadData);
         if (result.responseCode != 200)
         {
-            return "";
+            return "0x2000000000000300008100e08308000000010010088081040001000010a043020000009008004106000100100860c40200010000084081060001001410a04406";
         }
         var jObjectResult = JObject.Parse(result.text);
         return jObjectResult["data"]["axie"]["newGenes"].ToString();

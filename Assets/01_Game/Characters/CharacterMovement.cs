@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
@@ -9,7 +10,13 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField]
     private GridMap _gridMap;
 
+    [Header("Events out")]
+    [SerializeField]
+    private GameEvent _onMoved;
+
     [Header("Configs")]
+    [SerializeField]
+    private CharacterProperties _properties;
     [SerializeField]
     private Transform _movedTransform;
     [SerializeField]
@@ -25,7 +32,25 @@ public class CharacterMovement : MonoBehaviour
         Vector3 destination = _gridMap.GetPosition(coordinate);
         _movedTransform.DOMove(destination, _moveDuration).SetEase(_moveEase).OnComplete(() =>
         {
+            _onMoved.Raise(_properties, _currentCoordinate, coordinate);
             _currentCoordinate = coordinate;
         });
+    }
+
+    public void LookAt(Vector2Int coordinate)
+    {
+        if (CurrentCoordinate.x == coordinate.x)
+        {
+            _properties.Animator.ScaleX(Mathf.Sign(CurrentCoordinate.y - coordinate.y));
+            return;
+        }
+
+        _properties.Animator.ScaleX(Mathf.Sign(CurrentCoordinate.x - coordinate.x));
+    }
+
+    public void InitPosition(Vector2Int coordinate)
+    {
+        _movedTransform.position = _gridMap.GetPosition(coordinate);
+        _currentCoordinate = coordinate;
     }
 }

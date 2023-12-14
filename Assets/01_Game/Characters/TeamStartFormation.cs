@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TeamStartFormation", menuName = "AxieTest/Setup/TeamFormation")]
+[CreateAssetMenu(fileName = "TeamStartFormation", menuName = "AxieTest/SetUp/TeamFormation")]
 public class TeamStartFormation : ScriptableObject
 {
     [SerializeField]
