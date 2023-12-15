@@ -5,6 +5,7 @@ using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class CharacterAnimator : MonoBehaviour
 {
@@ -12,14 +13,41 @@ public class CharacterAnimator : MonoBehaviour
     private string _axieId;
 
     private SkeletonAnimation _animator;
-    private string _geneSearchUrl = "https://graphql-gateway.axieinfinity.com/graphql";
+    private const string _geneSearchUrl = "https://graphql-gateway.axieinfinity.com/graphql";
+    private const string RETRIEVING_GENE = "retrieving";
 
     // key = Id, value = gene
     private static Dictionary<string, string> _cachedGenes = new();
+    // key = Id, value = animation names
+    private static Dictionary<string, List<string>> _attackAnimationDict = new();
+    private static Dictionary<string, List<string>> _idleAnimationDict = new();
+    // key = Id, value = (skeleton asset, is retrieving animation data)
+    private static Dictionary<string, (SkeletonAsset, bool)> _skeletonAssetDict = new();
 
     public void ScaleX(float x)
     {
         _animator.skeleton.ScaleX = x;
+    }
+
+    public float DoAttackAnimation()
+    {
+        _attackAnimationDict.TryGetValue(_axieId, out var attacks);
+
+        int roll = Random.Range(0, attacks.Count);
+        _animator.state.SetAnimation(0, attacks[roll], false);
+        return _animator.state.GetCurrent(0).Animation.Duration;
+    }
+
+    public void DoIdleAnimation()
+    {
+        _idleAnimationDict.TryGetValue(_axieId, out var idles);
+        int roll = Random.Range(0, idles.Count);
+        _animator.state.SetAnimation(0, idles[roll], true);
+    }
+
+    public void DoMoveAnimation()
+    {
+        _animator.state.SetAnimation(0, "action/move-forward", false);
     }
 
     private void Start()
@@ -32,10 +60,45 @@ public class CharacterAnimator : MonoBehaviour
     private async UniTaskVoid Async_SetUpAnimator()
     {
         string gene = await GetGene(_axieId);
-        Mixer.SpawnSkeletonAnimation(_animator, _axieId, gene);
+        if (gene == RETRIEVING_GENE)
+        {
+            await UniTask.WaitUntil(() => _cachedGenes[_axieId] != RETRIEVING_GENE);
+        }
 
+        gene = _cachedGenes[_axieId];
+        Mixer.SpawnSkeletonAnimation(_animator, _axieId, gene);
         await UniTask.WaitUntil(() => _animator.SkeletonDataAsset != null);
-        _animator.state.SetAnimation(0, "action/idle/normal", true);
+
+        _idleAnimationDict.TryGetValue(_axieId, out var idles);
+        if (idles != null)
+        {
+            DoIdleAnimation();
+            return;
+        }
+        CacheAnimationNames();
+    }
+
+    private void CacheAnimationNames()
+    {
+        List<string> animations = Mixer.Builder.axieMixerMaterials.GetMixerStuff(AxieFormType.Normal).GetAnimatioNames();
+
+        List<string> idles = new();
+        _idleAnimationDict.Add(_axieId, idles);
+        List<string> attacks = new();
+        _attackAnimationDict.Add(_axieId, attacks);
+
+        for (int i = 0; i < animations.Count; i++)
+        {
+            if (animations[i].Contains("action/idle"))
+            {
+                idles.Add(animations[i]);
+            }
+
+            if (animations[i].Contains("attack/melee"))
+            {
+                attacks.Add(animations[i]);
+            }
+        }
     }
 
     private async UniTask<string> GetGene(string axieId)
@@ -45,19 +108,26 @@ public class CharacterAnimator : MonoBehaviour
         {
             return genes;
         }
+        _cachedGenes[axieId] = RETRIEVING_GENE;
 
         JObject jPayload = new()
         {
             new JProperty("query", "{ axie (axieId: \"" + axieId + "\") { id, genes, newGenes}}")
         };
 
-        byte[] uploadData = new System.Text.UTF8Encoding().GetBytes(jPayload.ToString().ToCharArray());
+        byte[] uploadData = new System.Text.UTF8Encoding().GetBytes(jPayload.ToString());
         var result = await RequestSenderAsync.SendPostRequest(_geneSearchUrl, uploadData);
+
+        string retrievedGenes = "0x2000000000000300008100e08308000000010010088081040001000010a043020000009008004106000100100860c40200010000084081060001001410a04406";
         if (result.responseCode != 200)
         {
-            return "0x2000000000000300008100e08308000000010010088081040001000010a043020000009008004106000100100860c40200010000084081060001001410a04406";
+            Debug.LogError("Failed to fetch genes info, use static genes instead!");
+            return retrievedGenes;
         }
+
         var jObjectResult = JObject.Parse(result.text);
-        return jObjectResult["data"]["axie"]["newGenes"].ToString();
+        retrievedGenes = jObjectResult["data"]["axie"]["newGenes"].ToString();
+        _cachedGenes[_axieId] = retrievedGenes;
+        return genes;
     }
 }

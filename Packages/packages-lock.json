@@ -19,7 +19,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "b4501332baa804066140a5a631fb6d1262b7fee6"
+      "hash": "1e437611f09b5fbeb149f3537d300840da97ad45"
     },
     "com.aluminum.uicreator": {
       "version": "https://github.com/Aluminum18/UICreatorDotween.git?path=Assets/Scripts/MainModules",

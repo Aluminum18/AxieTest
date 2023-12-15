@@ -153,22 +153,29 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
         UpdateCharacterDissapearance(character, coordinate);
     }
 
-    private void UpdateTouchCell(Vector3 touchGroundPoint)
+    private void UpdateTouchedCell(Vector3 touchGroundPoint)
     {
         _touchCell = _gridMap.GetCoordinate(touchGroundPoint);
+        _characterMap.TryGetValue(_touchCell, out var character);
+        if (character == null || !character.isActiveAndEnabled)
+        {
+            return;
+        }
+
+        character.ExposeProperties();
     }
 
     private void OnEnable()
     {
         _onACharacterMoved.Subcribe(UpdateCharacterCoordinate);
         _onACharacterDissapeared.Subcribe(UpdateCharacterDissapearance);
-        _touchGroundPoint.OnValueChange += UpdateTouchCell;
+        _touchGroundPoint.OnValueChange += UpdateTouchedCell;
     }
     private void OnDisable()
     {
         _onACharacterMoved.Unsubcribe(UpdateCharacterCoordinate);
         _onACharacterDissapeared.Unsubcribe(UpdateCharacterDissapearance);
-        _touchGroundPoint.OnValueChange -= UpdateTouchCell;
+        _touchGroundPoint.OnValueChange -= UpdateTouchedCell;
     }
 
     

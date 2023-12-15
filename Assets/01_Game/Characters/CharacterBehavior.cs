@@ -23,20 +23,32 @@ public class CharacterBehavior : MonoBehaviour
 
     public void ScanTarget()
     {
-        if (_currentTarget != null && _currentTarget.isActiveAndEnabled)
+        if (DoesCurrentTargetExist())
         {
             return;
         }
-        var tracker = CharacterTracker.Instance;
 
+        var tracker = CharacterTracker.Instance;
         if (_properties.Team == CharacterProperties.TeamId.Defense)
         {
-            return;
+            _currentTarget = tracker.FindTargetAround(_properties.Movement.CurrentCoordinate, CharacterProperties.TeamId.Attack);
+
+        }
+        else
+        {
+            _currentTarget = tracker.FindNearestDefender(_properties.Movement);
         }
 
-        _currentTarget = tracker.FindNearestDefender(_properties.Movement);
-        _currentTarget.Behavior.PairTarget(_properties);
+        if (!DoesCurrentTargetExist())
+        {
+            return;
+        }
         _properties.Movement.LookAt(_currentTarget.Movement.CurrentCoordinate);
+    }
+
+    private bool DoesCurrentTargetExist()
+    {
+        return _currentTarget != null && _currentTarget.isActiveAndEnabled;
     }
 
     public void DecideAction()
@@ -59,9 +71,9 @@ public class CharacterBehavior : MonoBehaviour
             return;
         }
         // Move step should be executed after attack step to prevent attacking a moving character
-        NextFrame_MoveTowardTo(movement.CurrentCoordinate, targetMovement.CurrentCoordinate).Forget();
+        NextFrame_MoveTowardToOrIdle(movement.CurrentCoordinate, targetMovement.CurrentCoordinate).Forget();
     }
-    private async UniTaskVoid NextFrame_MoveTowardTo(Vector2Int from, Vector2Int to)
+    private async UniTaskVoid NextFrame_MoveTowardToOrIdle(Vector2Int from, Vector2Int to)
     {
         await UniTask.NextFrame();
 
@@ -72,14 +84,16 @@ public class CharacterBehavior : MonoBehaviour
             if (tracker.IsMovableCell(nextPossibleCells[i]))
             {
                 _properties.Movement.MoveTo(nextPossibleCells[i]);
-                break;
+                return;
             }
         }
+
+        Idle();
     }
 
     public void Attack()
     {
-        if (_currentTarget == null || !_currentTarget.isActiveAndEnabled)
+        if (!DoesCurrentTargetExist())
         {
             return;
         }
@@ -99,11 +113,22 @@ public class CharacterBehavior : MonoBehaviour
         {
             damage = 3;
         }
+        float animationDuration = _properties.Animator.DoAttackAnimation();
+        Delay_ApplyDamage(damage, animationDuration / 2f).Forget();
+    }
+    private async UniTaskVoid Delay_ApplyDamage(int damage, float delay)
+    {
+        await UniTask.Delay(System.TimeSpan.FromSeconds(delay));
         _currentTarget.Behavior.BeAttacked(_properties, damage);
     }
 
     public void BeAttacked(CharacterProperties attacker, int damage)
     {
+        if (_properties.CurrentHp <= 0)
+        {
+            return;
+        }
+
         _currentTarget = attacker;
         _properties.CurrentHp -= damage;
         if (_properties.CurrentHp <= 0)
@@ -113,7 +138,7 @@ public class CharacterBehavior : MonoBehaviour
     }
 
     public void Defeated()
-    {
+    {  
         _onACharacterDefeated.Raise(_properties, _properties.Movement.CurrentCoordinate);
         _properties.gameObject.SetActive(false);
     }
@@ -122,5 +147,10 @@ public class CharacterBehavior : MonoBehaviour
     {
         _currentTarget = requester;
         _properties.Movement.LookAt(requester.Movement.CurrentCoordinate);
+    }
+
+    public void Idle()
+    {
+        _properties.Animator.DoIdleAnimation();
     }
 }

@@ -33,6 +33,7 @@ public class CharacterMovement : MonoBehaviour
         _onMoved.Raise(_properties, _currentCoordinate, coordinate);
         _currentCoordinate = coordinate;
         _movedTransform.DOMove(destination, _moveDuration).SetEase(_moveEase);
+        _properties.Animator.DoMoveAnimation();
     }
 
     public void LookAt(Vector2Int coordinate)

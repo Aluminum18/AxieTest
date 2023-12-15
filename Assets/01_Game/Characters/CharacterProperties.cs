@@ -58,6 +58,11 @@ public class CharacterProperties : MonoBehaviour
         Defense = 1
     }
 
+    public void ExposeProperties()
+    {
+
+    }
+
     private void OnEnable()
     {
         CurrentHp = MaxHp.Value;
