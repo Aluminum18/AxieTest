@@ -23,6 +23,7 @@ public class CharacterBehavior : MonoBehaviour
     private CharacterProperties _currentTarget;
     public CharacterProperties CurrentTarget => _currentTarget;
 
+    private bool _hasMovedThisTurn = false;
     private Vector3 _engagePosition = GridMap.UNDEFINED_POSITON;
 
     public void ScanTarget()
@@ -77,19 +78,38 @@ public class CharacterBehavior : MonoBehaviour
     private async UniTaskVoid NextFrame_MoveTowardToOrIdle(Vector2Int from, Vector2Int to)
     {
         await UniTask.NextFrame();
+        _hasMovedThisTurn = false;
 
         Vector2Int[] nextPossibleCells = _map.GetNextPossibleCoordinates(from, to);
-        var tracker = CharacterTracker.Instance;
-        for (int i = 0; i < nextPossibleCells.Length; i++)
+        if (TryMove(nextPossibleCells))
         {
-            if (tracker.IsMovableCell(nextPossibleCells[i]))
-            {
-                _properties.Movement.MoveTo(nextPossibleCells[i]);
-                return;
-            }
+            _hasMovedThisTurn = true;
+            return;
+        }
+
+        await UniTask.NextFrame(); // Retry to move on next frame with updated map data
+        if (TryMove(nextPossibleCells))
+        {
+            _hasMovedThisTurn = true;
+            return;
         }
 
         Idle();
+    }
+    private bool TryMove(Vector2Int[] possiblePoints)
+    {
+        var tracker = CharacterTracker.Instance;
+        for (int i = 0; i < possiblePoints.Length; i++)
+        {
+            Vector2Int to = possiblePoints[i];
+            if (tracker.IsMovableCell(to))
+            {
+                _properties.Movement.MoveTo(to);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void Attack()
@@ -196,5 +216,15 @@ public class CharacterBehavior : MonoBehaviour
     private bool DoesCurrentTargetExist()
     {
         return _currentTarget != null && !_currentTarget.Defeated;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_currentTarget == null || _properties.Team == CharacterProperties.TeamId.Attack)
+        {
+            return;
+        }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, _currentTarget.transform.position);
     }
 }
