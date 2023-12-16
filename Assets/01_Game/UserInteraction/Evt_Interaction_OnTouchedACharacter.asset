@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Evt_Interaction_OnTouchedACharacter
   m_EditorClassIdentifier: 
   _eventExplanation: 
-  _logWhenRaise: 1
+  _logWhenRaise: 0
   _subcribers: []
   _eventParams: []

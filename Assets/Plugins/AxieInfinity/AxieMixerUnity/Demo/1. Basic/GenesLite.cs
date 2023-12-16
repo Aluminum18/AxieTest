@@ -56,6 +56,7 @@ public class GenesLite : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     [UnityEditor.MenuItem("Test/Decode Genes")]
     static void TestDecodeGenes()
     {
@@ -136,6 +137,7 @@ public class GenesLite : MonoBehaviour
         System.Numerics.BigInteger.TryParse(finalGenes512, System.Globalization.NumberStyles.HexNumber, null, out var genes);
         GetAxieBodyStructure512(genes, jGenesData, jColors);
     }
+#endif
 
     static string[] AXIE_PART_TYPES = new string[]
     {

@@ -9,6 +9,13 @@ using UnityEngine.U2D.Animation;
 
 public class CharacterAnimator : MonoBehaviour
 {
+    private static bool _initiated = false;
+    // key = Id, value = gene
+    private static Dictionary<string, string> _cachedGenes = new();
+    // key = Id, value = animation names
+    private static Dictionary<string, List<string>> _attackAnimationDict = new();
+    private static Dictionary<string, List<string>> _idleAnimationDict = new();
+
     [SerializeField]
     private string _axieId;
     public string AxieId => _axieId;
@@ -20,12 +27,6 @@ public class CharacterAnimator : MonoBehaviour
     private SkeletonAnimation _animator;
     private const string _geneSearchUrl = "https://graphql-gateway.axieinfinity.com/graphql";
     private const string RETRIEVING_GENE = "retrieving";
-
-    // key = Id, value = gene
-    private static Dictionary<string, string> _cachedGenes = new();
-    // key = Id, value = animation names
-    private static Dictionary<string, List<string>> _attackAnimationDict = new();
-    private static Dictionary<string, List<string>> _idleAnimationDict = new();
 
     public static string GetCachedGene(string _axieId)
     {
@@ -76,7 +77,11 @@ public class CharacterAnimator : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<SkeletonAnimation>();
-        Mixer.Init();
+        if (!_initiated)
+        {
+            Mixer.Init();
+            _initiated = true;
+        }
         Async_SetUpAnimator().Forget();
     }
 
@@ -90,7 +95,6 @@ public class CharacterAnimator : MonoBehaviour
 
         gene = _cachedGenes[_axieId];
         Mixer.SpawnSkeletonAnimation(_animator, _axieId, gene);
-        await UniTask.WaitUntil(() => _animator.SkeletonDataAsset != null);
 
         _onACharacterFinishedSetUp.Raise();
         _idleAnimationDict.TryGetValue(_axieId, out var idles);

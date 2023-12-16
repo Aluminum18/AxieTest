@@ -65,7 +65,7 @@ public class CameraInteraction : MonoBehaviour
         }
 
         float currentSize = _refererenceCamera.orthographicSize;
-        float targetSize = Mathf.Clamp(currentSize - scrollDelta.y * _zoomSpeed * Time.deltaTime, _camSizeClamp.x, _camSizeClamp.y);
+        float targetSize = Mathf.Clamp(currentSize - scrollDelta.y * _zoomSpeed * Time.unscaledDeltaTime, _camSizeClamp.x, _camSizeClamp.y);
         _refererenceCamera.orthographicSize = targetSize;
     }
 
