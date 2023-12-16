@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8020681570280391369}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -81,6 +80,7 @@ MonoBehaviour:
   _doTweenOnEnable: 0
   _allowSeftInteruptTween: 0
   _backToOriginWhenFinishTween: 0
+  _ignoreTimeScale: 1
   _go: {fileID: 8020681570280391374}
   _animType: 4
   _easeType: 4
@@ -150,7 +150,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8020681570280391369}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -200,6 +199,7 @@ MonoBehaviour:
   _doTweenOnEnable: 0
   _allowSeftInteruptTween: 0
   _backToOriginWhenFinishTween: 0
+  _ignoreTimeScale: 1
   _go: {fileID: 8020681570280391374}
   _animType: 4
   _easeType: 4
@@ -260,7 +260,6 @@ RectTransform:
   - {fileID: 4867174048962996905}
   - {fileID: 5178887180576513839}
   m_Father: {fileID: 8020681571755049642}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -348,7 +347,6 @@ RectTransform:
   m_Children:
   - {fileID: 8020681571755049642}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -431,7 +429,6 @@ RectTransform:
   m_Children:
   - {fileID: 8020681570280391369}
   m_Father: {fileID: 3607706811081068776}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

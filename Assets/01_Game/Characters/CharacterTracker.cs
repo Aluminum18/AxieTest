@@ -39,7 +39,7 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
         CharacterProperties nearestTarget = null;
         for (int i = 0; i < _defenseTeam.Count; i++)
         {
-            if (!_defenseTeam[i].isActiveAndEnabled)
+            if (_defenseTeam[i].Defeated)
             {
                 continue;
             }
@@ -67,7 +67,7 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
         for (int i = 0; i < candidateCoorinate.Length; i++)
         {
             _characterMap.TryGetValue(candidateCoorinate[i], out candidate);
-            if (candidate != null && candidate.isActiveAndEnabled && candidate.Team == targetTeam)
+            if (candidate != null && !candidate.Defeated && candidate.Team == targetTeam)
             {
                 return candidate;
             }
@@ -84,7 +84,7 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
         }
 
         _characterMap.TryGetValue(coordinate, out var character);
-        return character == null || !character.isActiveAndEnabled;
+        return character == null || character.Defeated;
     }
 
     public void UpdateCoordinate(Vector2Int from, Vector2Int to, CharacterProperties mover)
@@ -95,7 +95,7 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
             return;
         }
         _characterMap.TryGetValue(to, out var toCellCharacter);
-        if (toCellCharacter != null && toCellCharacter.isActiveAndEnabled)
+        if (toCellCharacter != null && !toCellCharacter.Defeated)
         {
             Debug.LogError($"Invalid move from [{from}] to [{to}]");
             return;
@@ -157,7 +157,7 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
     {
         _touchCell = _gridMap.GetCoordinate(touchGroundPoint);
         _characterMap.TryGetValue(_touchCell, out var character);
-        if (character == null || !character.isActiveAndEnabled)
+        if (character == null || character.Defeated)
         {
             return;
         }

@@ -12,8 +12,11 @@ public class GridMap : ScriptableObject
     public Vector2Int MapSize => _mapSize;
     [SerializeField]
     private Vector2 _cellSize;
+    public Vector2 CellSize => _cellSize;
     [SerializeField]
     private Vector2 _cellCenterOffset;
+
+    public static Vector3 UNDEFINED_POSITON = new(99f, 99f, 99f);
 
     public Vector3 GetPosition(Vector2Int coordinate)
     {

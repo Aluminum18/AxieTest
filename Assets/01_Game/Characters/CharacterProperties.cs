@@ -51,6 +51,8 @@ public class CharacterProperties : MonoBehaviour
 
     [field: SerializeField]
     public int AttackRollValue { get; private set; }
+    [field: SerializeField]
+    public bool Defeated { get; set; }
 
     public enum TeamId
     {
@@ -66,6 +68,7 @@ public class CharacterProperties : MonoBehaviour
     private void OnEnable()
     {
         CurrentHp = MaxHp.Value;
+        Defeated = false;
         AttackRollValue = Random.Range(0, 3);
         _hpSlider.Init(_currentHp);
     }

@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,9 @@ public class CharacterBehavior : MonoBehaviour
     [Header("Inspec")]
     [SerializeField]
     private CharacterProperties _currentTarget;
+    public CharacterProperties CurrentTarget => _currentTarget;
+
+    private Vector3 _engagePosition = GridMap.UNDEFINED_POSITON;
 
     public void ScanTarget()
     {
@@ -28,11 +32,12 @@ public class CharacterBehavior : MonoBehaviour
             return;
         }
 
+        _engagePosition = GridMap.UNDEFINED_POSITON;
+
         var tracker = CharacterTracker.Instance;
         if (_properties.Team == CharacterProperties.TeamId.Defense)
         {
             _currentTarget = tracker.FindTargetAround(_properties.Movement.CurrentCoordinate, CharacterProperties.TeamId.Attack);
-
         }
         else
         {
@@ -44,11 +49,6 @@ public class CharacterBehavior : MonoBehaviour
             return;
         }
         _properties.Movement.LookAt(_currentTarget.Movement.CurrentCoordinate);
-    }
-
-    private bool DoesCurrentTargetExist()
-    {
-        return _currentTarget != null && _currentTarget.isActiveAndEnabled;
     }
 
     public void DecideAction()
@@ -68,6 +68,7 @@ public class CharacterBehavior : MonoBehaviour
         }
         if (_properties.Team == CharacterProperties.TeamId.Defense)
         {
+            Idle();
             return;
         }
         // Move step should be executed after attack step to prevent attacking a moving character
@@ -113,7 +114,14 @@ public class CharacterBehavior : MonoBehaviour
         {
             damage = 3;
         }
+
         float animationDuration = _properties.Animator.DoAttackAnimation();
+        Vector3 currentPos = _map.GetPosition(_properties.Movement.CurrentCoordinate);
+        Vector3 attackPos = GetEngagePosition();
+        Transform root = _properties.transform;
+        var attackMoveSequence = DOTween.Sequence();
+        attackMoveSequence.Append(root.DOMove(attackPos, animationDuration / 2f).SetEase(Ease.InBack));
+        attackMoveSequence.Append(root.DOMove(currentPos, animationDuration / 2f).SetEase(Ease.InOutSine));
         Delay_ApplyDamage(damage, animationDuration / 2f).Forget();
     }
     private async UniTaskVoid Delay_ApplyDamage(int damage, float delay)
@@ -129,7 +137,6 @@ public class CharacterBehavior : MonoBehaviour
             return;
         }
 
-        _currentTarget = attacker;
         _properties.CurrentHp -= damage;
         if (_properties.CurrentHp <= 0)
         {
@@ -140,17 +147,53 @@ public class CharacterBehavior : MonoBehaviour
     public void Defeated()
     {  
         _onACharacterDefeated.Raise(_properties, _properties.Movement.CurrentCoordinate);
-        _properties.gameObject.SetActive(false);
+        _properties.Defeated = true;
+        float duration = _properties.Animator.DoDefeatedAnimation();
+        Delay_Defeated(duration).Forget();
     }
-
-    public void PairTarget(CharacterProperties requester)
+    private async UniTaskVoid Delay_Defeated(float delay)
     {
-        _currentTarget = requester;
-        _properties.Movement.LookAt(requester.Movement.CurrentCoordinate);
+        await UniTask.Delay(System.TimeSpan.FromSeconds(delay));
+        _properties.transform.DOScale(0f, 0.3f).SetEase(Ease.InOutSine).OnComplete(() => _properties.gameObject.SetActive(false));
     }
 
     public void Idle()
     {
         _properties.Animator.DoIdleAnimation();
+    }
+
+    public Vector3 GetEngagePosition()
+    {
+        if (_currentTarget == null)
+        {
+            return GridMap.UNDEFINED_POSITON;
+        }
+        if (_engagePosition != GridMap.UNDEFINED_POSITON)
+        {
+            return _engagePosition;
+        }
+
+        Vector3 selfPosition = _map.GetPosition(_properties.Movement.CurrentCoordinate);
+        bool isHeadToHeadTarget = _currentTarget.Behavior.CurrentTarget.GetInstanceID() == _properties.GetInstanceID();
+        if (isHeadToHeadTarget)
+        {
+            Vector3 targetPosition = _map.GetPosition(_currentTarget.Movement.CurrentCoordinate);
+            Vector3 centerPoint = (targetPosition + selfPosition) / 2f;
+            // engage positionX: ---engage1-------center-------engage2---
+            _engagePosition.x = centerPoint.x - _properties.Animator.GetFaceDirection() * (_map.CellSize.x / 2f) * 0.7f;
+            _engagePosition.y = centerPoint.y;
+            _engagePosition.z = 0f;
+            return _engagePosition;
+        }
+
+        Vector3 targetEngagePosition = _currentTarget.Behavior.GetEngagePosition();
+        Vector3 direction = targetEngagePosition - selfPosition;
+        _engagePosition = selfPosition + direction / 2f;
+        return _engagePosition;
+    }
+
+    private bool DoesCurrentTargetExist()
+    {
+        return _currentTarget != null && !_currentTarget.Defeated;
     }
 }

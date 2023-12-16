@@ -19,6 +19,8 @@ public class DoTweenAnimation : MonoBehaviour
     [SerializeField]
     private bool _backToOriginWhenFinishTween = false;
     [SerializeField]
+    private bool _ignoreTimeScale = false;
+    [SerializeField]
     private GameObject _go;
     [SerializeField]
     private AnimType _animType;
@@ -79,7 +81,7 @@ public class DoTweenAnimation : MonoBehaviour
 
     public async UniTaskVoid DoTweenWithDelay(float delay)
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(delay));
+        await UniTask.Delay(TimeSpan.FromSeconds(delay), ignoreTimeScale: _ignoreTimeScale);
         DoTween();
     }
 
@@ -108,7 +110,7 @@ public class DoTweenAnimation : MonoBehaviour
                         _go.transform.position = _from;
                     }
 
-                    _tweener = _go.transform.DOMove(_to, _duration).SetEase(_easeType).OnComplete(() =>
+                    _tweener = _go.transform.DOMove(_to, _duration).SetEase(_easeType).SetUpdate(_ignoreTimeScale).OnComplete(() =>
                     {
                         if (_backToOriginWhenFinishTween)
                         {
@@ -124,7 +126,7 @@ public class DoTweenAnimation : MonoBehaviour
                     {
                         _go.transform.localPosition = _from;
                     }
-                    _tweener = _go.transform.DOLocalMove(_to, _duration).SetEase(_easeType).OnComplete(() => {
+                    _tweener = _go.transform.DOLocalMove(_to, _duration).SetEase(_easeType).SetUpdate(_ignoreTimeScale).OnComplete(() => {
                         if (_backToOriginWhenFinishTween)
                         {
                             _go.transform.localPosition = _to;
@@ -139,7 +141,7 @@ public class DoTweenAnimation : MonoBehaviour
                     {
                         _go.transform.localScale = _from;
                     }
-                    _tweener = _go.transform.DOScale(_to, _duration).SetEase(_easeType).OnComplete( () => {
+                    _tweener = _go.transform.DOScale(_to, _duration).SetEase(_easeType).SetUpdate(_ignoreTimeScale).OnComplete(() => {
                         if (_backToOriginWhenFinishTween)
                         {
                             _go.transform.localScale = _from;
@@ -163,7 +165,7 @@ public class DoTweenAnimation : MonoBehaviour
                         spriteRenderer.color = bufferColor;
                     }
 
-                    _tweener = spriteRenderer.DOFade(_to.x, _duration).SetEase(_easeType).OnComplete(() =>
+                    _tweener = spriteRenderer.DOFade(_to.x, _duration).SetEase(_easeType).SetUpdate(_ignoreTimeScale).OnComplete(() =>
                     {
                         if (_backToOriginWhenFinishTween)
                         {
@@ -188,7 +190,7 @@ public class DoTweenAnimation : MonoBehaviour
                         canvasGroup.alpha = _from.x;
                     }
 
-                    _tweener = canvasGroup.DOFade(_to.x, _duration).SetEase(_easeType).OnComplete(() =>
+                    _tweener = canvasGroup.DOFade(_to.x, _duration).SetEase(_easeType).SetUpdate(_ignoreTimeScale).OnComplete(() =>
                     {
                         if (_backToOriginWhenFinishTween)
                         {
@@ -205,7 +207,7 @@ public class DoTweenAnimation : MonoBehaviour
                         _go.transform.localRotation = Quaternion.Euler(_from);
                     }
 
-                    _tweener = _go.transform.DOLocalRotate(_to, _duration).SetEase(_easeType).OnComplete(() =>
+                    _tweener = _go.transform.DOLocalRotate(_to, _duration).SetEase(_easeType).SetUpdate(_ignoreTimeScale).OnComplete(() =>
                     {
                         if (_backToOriginWhenFinishTween)
                         {

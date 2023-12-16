@@ -38,7 +38,7 @@ public class SceneLoader : MonoBehaviour
     public async UniTaskVoid LoadRequestedScene(string sceneName)
     {
         _onReceivedLoadRequest.Invoke();
-        await UniTask.Delay(System.TimeSpan.FromSeconds(_loadDelay));
+        await UniTask.Delay(System.TimeSpan.FromSeconds(_loadDelay), ignoreTimeScale: true);
         _onStartLoad.Invoke();
 
         _requestLoadScene.Value = sceneName;

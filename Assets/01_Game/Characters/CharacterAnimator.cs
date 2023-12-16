@@ -29,6 +29,14 @@ public class CharacterAnimator : MonoBehaviour
         _animator.skeleton.ScaleX = x;
     }
 
+    /// <summary>
+    /// -1: character face to the left, 1: charater face to the right
+    /// </summary>
+    public float GetFaceDirection()
+    {
+        return -Mathf.Sign(_animator.skeleton.ScaleX);      
+    }
+
     public float DoAttackAnimation()
     {
         _attackAnimationDict.TryGetValue(_axieId, out var attacks);
@@ -48,6 +56,12 @@ public class CharacterAnimator : MonoBehaviour
     public void DoMoveAnimation()
     {
         _animator.state.SetAnimation(0, "action/move-forward", false);
+    }
+
+    public float DoDefeatedAnimation()
+    {
+        _animator.state.SetAnimation(0, "defense/hit-by-normal-dramatic", false);
+        return _animator.state.GetCurrent(0).Animation.Duration;
     }
 
     private void Start()
