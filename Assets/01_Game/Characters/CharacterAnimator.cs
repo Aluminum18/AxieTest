@@ -12,6 +12,10 @@ public class CharacterAnimator : MonoBehaviour
     [SerializeField]
     private string _axieId;
 
+    [Header("Events out")]
+    [SerializeField]
+    private GameEvent _onACharacterFinishedSetUp;
+
     private SkeletonAnimation _animator;
     private const string _geneSearchUrl = "https://graphql-gateway.axieinfinity.com/graphql";
     private const string RETRIEVING_GENE = "retrieving";
@@ -83,6 +87,7 @@ public class CharacterAnimator : MonoBehaviour
         Mixer.SpawnSkeletonAnimation(_animator, _axieId, gene);
         await UniTask.WaitUntil(() => _animator.SkeletonDataAsset != null);
 
+        _onACharacterFinishedSetUp.Raise();
         _idleAnimationDict.TryGetValue(_axieId, out var idles);
         if (idles != null)
         {

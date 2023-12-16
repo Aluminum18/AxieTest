@@ -23,6 +23,10 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
     [SerializeField]
     private GameEvent _onACharacterDissapeared;
 
+    [Header("Events out")]
+    [SerializeField]
+    private GameEvent _onAllCharacterFinishedSetUp;
+
     [Header("Inspec")]
     [SerializeField]
     private Vector2Int _touchCell;
@@ -31,7 +35,18 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
     [SerializeField]
     private List<CharacterProperties> _attackTeam;
 
+    private int _readyCharacterCount = 0;
+
     private Dictionary<Vector2Int, CharacterProperties> _characterMap = new Dictionary<Vector2Int, CharacterProperties>();
+
+    public void CountReadyCharacter()
+    {
+        _readyCharacterCount++;
+        if (_readyCharacterCount == _attackTeam.Count + _defenseTeam.Count)
+        {
+            _onAllCharacterFinishedSetUp.Raise();
+        }
+    }
 
     public CharacterProperties FindNearestDefender(CharacterMovement from)
     {

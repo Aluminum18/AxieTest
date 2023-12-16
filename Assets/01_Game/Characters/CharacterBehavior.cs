@@ -188,7 +188,7 @@ public class CharacterBehavior : MonoBehaviour
 
         Vector3 targetEngagePosition = _currentTarget.Behavior.GetEngagePosition();
         Vector3 direction = targetEngagePosition - selfPosition;
-        _engagePosition = selfPosition + direction / 2f;
+        _engagePosition = selfPosition + direction * 0.7f;
         return _engagePosition;
     }
 

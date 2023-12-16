@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _axieId: 2724598
+  _onACharacterFinishedSetUp: {fileID: 11400000, guid: 0dc03b957f67cd8419d223e84016c4a5, type: 2}
 --- !u!33 &1403173758568357875
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -660,6 +661,7 @@ MonoBehaviour:
   <Animator>k__BackingField: {fileID: 75441362689099796}
   _currentHp: {fileID: 0}
   <AttackRollValue>k__BackingField: 0
+  <Defeated>k__BackingField: 0
 --- !u!1 &3208069885498295126
 GameObject:
   m_ObjectHideFlags: 0
