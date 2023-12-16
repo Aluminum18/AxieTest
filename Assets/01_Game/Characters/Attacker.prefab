@@ -652,7 +652,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hpShownOnPanel: {fileID: 11400000, guid: 4ce423cfc96bfde42a77e31cf209bdfa, type: 2}
+  _maxHpShownOnPanel: {fileID: 11400000, guid: 39111dd84eb92ad44bd1b4083252c4e7, type: 2}
   _attackRollShownOnPanel: {fileID: 11400000, guid: 04fcdad6142e73b4eae855f16eba47e8, type: 2}
+  _attackDamageShownOnPanel: {fileID: 11400000, guid: 6f4c855ef3f13a841a9870ad01a01a17, type: 2}
+  _characterIdShownOnPanel: {fileID: 11400000, guid: ab74c2ff7d1c83a4bbe79c3172623e00, type: 2}
   <Team>k__BackingField: 0
   <MaxHp>k__BackingField: {fileID: 11400000, guid: c1d3d1870978dc9419a7ab597b669996, type: 2}
   _hpSlider: {fileID: 3384988916643123345}
@@ -661,6 +664,7 @@ MonoBehaviour:
   <Animator>k__BackingField: {fileID: 75441362689099796}
   _currentHp: {fileID: 0}
   <AttackRollValue>k__BackingField: 0
+  _currentAttackDamage: 0
   <Defeated>k__BackingField: 0
 --- !u!1 &3208069885498295126
 GameObject:

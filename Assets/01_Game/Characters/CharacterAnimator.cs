@@ -11,6 +11,7 @@ public class CharacterAnimator : MonoBehaviour
 {
     [SerializeField]
     private string _axieId;
+    public string AxieId => _axieId;
 
     [Header("Events out")]
     [SerializeField]
@@ -25,8 +26,12 @@ public class CharacterAnimator : MonoBehaviour
     // key = Id, value = animation names
     private static Dictionary<string, List<string>> _attackAnimationDict = new();
     private static Dictionary<string, List<string>> _idleAnimationDict = new();
-    // key = Id, value = (skeleton asset, is retrieving animation data)
-    private static Dictionary<string, (SkeletonAsset, bool)> _skeletonAssetDict = new();
+
+    public static string GetCachedGene(string _axieId)
+    {
+        _cachedGenes.TryGetValue(_axieId, out var cachedGenes);
+        return cachedGenes;
+    }
 
     public void ScaleX(float x)
     {

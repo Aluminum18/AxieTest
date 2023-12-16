@@ -26,6 +26,8 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
     [Header("Events out")]
     [SerializeField]
     private GameEvent _onAllCharacterFinishedSetUp;
+    [SerializeField]
+    private GameEvent _onTouchedACharacter;
 
     [Header("Inspec")]
     [SerializeField]
@@ -170,14 +172,20 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
 
     private void UpdateTouchedCell(Vector3 touchGroundPoint)
     {
+        _characterMap.TryGetValue(_touchCell, out var previous);
+ 
         _touchCell = _gridMap.GetCoordinate(touchGroundPoint);
         _characterMap.TryGetValue(_touchCell, out var character);
         if (character == null || character.Defeated)
         {
             return;
         }
-
+        if (previous != null)
+        {
+            previous.StopExposeProperties();
+        }
         character.ExposeProperties();
+        _onTouchedACharacter.Raise();
     }
 
     private void OnEnable()

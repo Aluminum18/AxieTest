@@ -113,6 +113,7 @@ MonoBehaviour:
   _onACharacterMoved: {fileID: 11400000, guid: d7e7591a7fcbcd244969ac3180958ed4, type: 2}
   _onACharacterDissapeared: {fileID: 11400000, guid: 2d8a6d6ae243bfc44ba7dd8d4d1935bb, type: 2}
   _onAllCharacterFinishedSetUp: {fileID: 11400000, guid: f2f172542e0f9a4489fe60abcd95ef6d, type: 2}
+  _onTouchedACharacter: {fileID: 11400000, guid: e8696218288e54842a3c8ed97b9b1c22, type: 2}
   _touchCell: {x: 0, y: 0}
   _defenseTeam: []
   _attackTeam: []

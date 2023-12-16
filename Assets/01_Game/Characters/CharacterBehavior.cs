@@ -114,6 +114,7 @@ public class CharacterBehavior : MonoBehaviour
         {
             damage = 3;
         }
+        _properties.CurrentAttackDamage = damage;
 
         float animationDuration = _properties.Animator.DoAttackAnimation();
         Vector3 currentPos = _map.GetPosition(_properties.Movement.CurrentCoordinate);
