@@ -18,7 +18,7 @@ public class CharacterProperties : MonoBehaviour
     private StringVariable _characterIdShownOnPanel;
 
     [SerializeField]
-    private UnityEvent _onEnable;
+    private UnityEvent _onAppeared;
 
     [field: Header("Configs")]
     [field: SerializeField]
@@ -93,6 +93,12 @@ public class CharacterProperties : MonoBehaviour
         Defense = 1
     }
 
+    public void ShowVisual()
+    {
+        gameObject.SetLayerRecursively(LayerMask.NameToLayer("Default"));
+        _onAppeared.Invoke();
+    }
+
     public void ExposeProperties()
     {
         _isExposeProperties = true;
@@ -116,6 +122,5 @@ public class CharacterProperties : MonoBehaviour
         Defeated = false;
         AttackRollValue = Random.Range(0, 3);
         _hpSlider.Init(_currentHp);
-        _onEnable.Invoke();
     }
 }

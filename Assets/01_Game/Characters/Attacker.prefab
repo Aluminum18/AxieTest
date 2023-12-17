@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1621952702062955978}
   - component: {fileID: 3913476207259249619}
   - component: {fileID: 5083446503068683887}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7534567573327150338}
   - component: {fileID: 5330673899908497501}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HpBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 1403173758568357875}
   - component: {fileID: 4385619730028085839}
   - component: {fileID: 5476072055897052750}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Animator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +309,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9135686070278252327}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Setup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -342,7 +342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 865307102750741668}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7001837019551640867}
   - component: {fileID: 6052799426549680873}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EndTurn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2580922841708292926}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TurnEventListeners
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9019786722594018236}
   - component: {fileID: 6134450780907692950}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StartedTurn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -520,7 +520,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2923048725457403822}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Logic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -555,7 +555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2432675377353541234}
   - component: {fileID: 6198992970244275020}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +615,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6577917210380652398}
   - component: {fileID: 4242116271805663556}
-  m_Layer: 0
+  - component: {fileID: 3080403798650176386}
+  m_Layer: 6
   m_Name: Attacker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -659,7 +660,7 @@ MonoBehaviour:
   _attackRollShownOnPanel: {fileID: 11400000, guid: 04fcdad6142e73b4eae855f16eba47e8, type: 2}
   _attackDamageShownOnPanel: {fileID: 11400000, guid: 6f4c855ef3f13a841a9870ad01a01a17, type: 2}
   _characterIdShownOnPanel: {fileID: 11400000, guid: ab74c2ff7d1c83a4bbe79c3172623e00, type: 2}
-  _onEnable:
+  _onAppeared:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6672252524228390188}
@@ -684,6 +685,34 @@ MonoBehaviour:
   <AttackRollValue>k__BackingField: 0
   _currentAttackDamage: 0
   <Defeated>k__BackingField: 0
+--- !u!114 &3080403798650176386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2958222402540404945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaa21eca27677614d84f5f12a6ea6688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameEvent: {fileID: 11400000, guid: c297f926f4260a44aacbe827b644fa7f, type: 2}
+  _handler:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4242116271805663556}
+        m_TargetAssemblyTypeName: CharacterProperties, Assembly-CSharp
+        m_MethodName: ShowVisual
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3208069885498295126
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +724,7 @@ GameObject:
   - component: {fileID: 6970783487348707243}
   - component: {fileID: 2865275433749048526}
   - component: {fileID: 8458545026749331890}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -769,7 +798,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2612428133497340899}
   - component: {fileID: 6672252524228390188}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AppearFxSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -785,7 +814,7 @@ Transform:
   m_GameObject: {fileID: 3866178875360827526}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -820,7 +849,7 @@ GameObject:
   - component: {fileID: 6865793787733224939}
   - component: {fileID: 5432770383583891612}
   - component: {fileID: 2704873736437319290}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,7 +923,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3579113123483545464}
   - component: {fileID: 6800579601033521747}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Movement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -944,7 +973,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5763758671747927133}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -982,7 +1011,7 @@ GameObject:
   - component: {fileID: 3473759541622003542}
   - component: {fileID: 4941024182161555306}
   - component: {fileID: 4529174722044200579}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1056,7 +1085,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3936988555940706602}
   - component: {fileID: 252618499060075871}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MiddleTurn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1117,7 +1146,7 @@ GameObject:
   - component: {fileID: 3155223262599947097}
   - component: {fileID: 6712542534180127161}
   - component: {fileID: 3384988916643123345}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HpGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1187,7 +1216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2031114030037249462}
   - component: {fileID: 8435319428277878694}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DisappearFxSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1203,7 +1232,7 @@ Transform:
   m_GameObject: {fileID: 6222334749181366232}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1237,7 +1266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3083077107631796531}
   - component: {fileID: 7615885228573824898}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Behavior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1315,7 +1344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9220021852443963185}
   - component: {fileID: 6011202129524838867}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PolishHpBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1404,7 +1433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8472733187587267874}
   - component: {fileID: 6678229994291629687}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HitFxSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1420,7 +1449,7 @@ Transform:
   m_GameObject: {fileID: 8905506527788889098}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
