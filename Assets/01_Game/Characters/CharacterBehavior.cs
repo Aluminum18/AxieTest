@@ -23,7 +23,7 @@ public class CharacterBehavior : MonoBehaviour
     private CharacterProperties _currentTarget;
     public CharacterProperties CurrentTarget => _currentTarget;
 
-    private bool _hasMovedThisTurn = false;
+    private bool _finishedTurn = false;
     private Vector3 _engagePosition = GridMap.UNDEFINED_POSITON;
 
     public void ScanTarget()
@@ -54,6 +54,7 @@ public class CharacterBehavior : MonoBehaviour
 
     public void DecideAction()
     {
+        _finishedTurn = false;
         if (_currentTarget == null)
         {
             return;
@@ -65,6 +66,7 @@ public class CharacterBehavior : MonoBehaviour
         if (isTargetAdjacent)
         {
             Attack();
+            _finishedTurn = true;
             return;
         }
         if (_properties.Team == CharacterProperties.TeamId.Defense)
@@ -72,45 +74,46 @@ public class CharacterBehavior : MonoBehaviour
             Idle();
             return;
         }
-        // Move step should be executed after attack step to prevent attacking a moving character
-        NextFrame_MoveTowardToOrIdle(movement.CurrentCoordinate, targetMovement.CurrentCoordinate).Forget();
+        // Move step should be executed after attack step to prevent being attacked while moving
+        NextFrame_MoveTowardToOrIdle().Forget();
     }
-    private async UniTaskVoid NextFrame_MoveTowardToOrIdle(Vector2Int from, Vector2Int to)
+
+    public bool TryMoveTowardToCurrentTarget()
     {
-        await UniTask.NextFrame();
-        _hasMovedThisTurn = false;
-
-        Vector2Int[] nextPossibleCells = _map.GetNextPossibleCoordinates(from, to);
-        if (TryMove(nextPossibleCells))
+        if (_finishedTurn)
         {
-            _hasMovedThisTurn = true;
-            return;
+            return false;
         }
-
-        await UniTask.NextFrame(); // Retry to move on next frame with updated map data
-        if (TryMove(nextPossibleCells))
-        {
-            _hasMovedThisTurn = true;
-            return;
-        }
-
-        Idle();
-    }
-    private bool TryMove(Vector2Int[] possiblePoints)
-    {
         var tracker = CharacterTracker.Instance;
-        for (int i = 0; i < possiblePoints.Length; i++)
+
+        Vector2Int from = _properties.Movement.CurrentCoordinate;
+        Vector2Int to = _currentTarget.Movement.CurrentCoordinate;
+        Vector2Int[] nextPossibleCells = _map.GetNextPossibleCoordinates(from, to);
+        for (int i = 0; i < nextPossibleCells.Length; i++)
         {
-            Vector2Int to = possiblePoints[i];
-            if (tracker.IsMovableCell(to))
+            if (tracker.IsMovableCell(nextPossibleCells[i], true))
             {
-                _properties.Movement.MoveTo(to);
+                _properties.Movement.MoveTo(nextPossibleCells[i]);
+                _finishedTurn = true;
                 return true;
             }
         }
 
         return false;
     }
+
+    private async UniTaskVoid NextFrame_MoveTowardToOrIdle()
+    {
+        await UniTask.NextFrame();
+
+        if (TryMoveTowardToCurrentTarget())
+        {
+            return;
+        }
+
+        Idle();
+    }
+    
 
     public void Attack()
     {
@@ -181,6 +184,7 @@ public class CharacterBehavior : MonoBehaviour
     public void Idle()
     {
         _properties.Animator.DoIdleAnimation();
+        _finishedTurn = true;
     }
 
     public Vector3 GetEngagePosition()

@@ -93,7 +93,7 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
         return null;
     }
 
-    public bool IsMovableCell(Vector2Int coordinate)
+    public bool IsMovableCell(Vector2Int coordinate, bool moveCharacterAtThisCellIfAny = false)
     {
         if (_gridMap.MapSize.x <= coordinate.x || _gridMap.MapSize.y <= coordinate.y)
         {
@@ -101,7 +101,16 @@ public class CharacterTracker : MonoSingleton<CharacterTracker>
         }
 
         _characterMap.TryGetValue(coordinate, out var character);
-        return character == null || character.Defeated;
+        if (character == null || character.Defeated)
+        {
+            return true;
+        }
+        if (!moveCharacterAtThisCellIfAny)
+        {
+            return false;
+        }
+
+        return character.Behavior.TryMoveTowardToCurrentTarget();
     }
 
     public void UpdateCoordinate(Vector2Int from, Vector2Int to, CharacterProperties mover)
