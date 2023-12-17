@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharacterProperties : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class CharacterProperties : MonoBehaviour
     private IntegerVariable _attackDamageShownOnPanel;
     [SerializeField]
     private StringVariable _characterIdShownOnPanel;
+
+    [SerializeField]
+    private UnityEvent _onEnable;
 
     [field: Header("Configs")]
     [field: SerializeField]
@@ -112,5 +116,6 @@ public class CharacterProperties : MonoBehaviour
         Defeated = false;
         AttackRollValue = Random.Range(0, 3);
         _hpSlider.Init(_currentHp);
+        _onEnable.Invoke();
     }
 }

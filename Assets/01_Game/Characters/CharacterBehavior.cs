@@ -13,6 +13,11 @@ public class CharacterBehavior : MonoBehaviour
 
     [SerializeField]
     private GameEvent _onACharacterDefeated;
+    [SerializeField]
+    private UnityEvent _onHit;
+    [SerializeField]
+    private UnityEvent _onDisappeared;
+
 
     [Header("Configs")]
     [SerializeField]
@@ -161,6 +166,7 @@ public class CharacterBehavior : MonoBehaviour
             return;
         }
 
+        _onHit.Invoke();
         _properties.CurrentHp -= damage;
         if (_properties.CurrentHp <= 0)
         {
@@ -178,7 +184,11 @@ public class CharacterBehavior : MonoBehaviour
     private async UniTaskVoid Delay_Defeated(float delay)
     {
         await UniTask.Delay(System.TimeSpan.FromSeconds(delay));
-        _properties.transform.DOScale(0f, 0.3f).SetEase(Ease.InOutSine).OnComplete(() => _properties.gameObject.SetActive(false));
+        _properties.transform.DOScale(0f, 0.3f).SetEase(Ease.InOutSine).OnComplete(() =>
+        {
+            _onDisappeared.Invoke();
+            _properties.gameObject.SetActive(false);
+        });
     }
 
     public void Idle()

@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gridMap: {fileID: 11400000, guid: f9e5b08bb13d04c44aeefc5a13091dce, type: 2}
-  _teamFormation: {fileID: 11400000, guid: 38a6213742979bd46bc1079c998619b8, type: 2}
+  _teamFormation: {fileID: 11400000, guid: 1cebc6bd5d58285498594123d62f4662, type: 2}
   _attackerTemplate: {fileID: 2958222402540404945, guid: e0da7f0b265f712489775d4296425914, type: 3}
   _defenderTemplate: {fileID: 2689615861291600343, guid: 6d34816237f5a2047bacdb45e60694e3, type: 3}
 --- !u!4 &150165843
@@ -2701,7 +2701,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 9927d3a95be3ceb4785197c6daf6489e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
