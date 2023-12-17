@@ -11,6 +11,10 @@ public class Referee : MonoBehaviour
     [SerializeField]
     private IntegerVariable _defenderCount;
 
+    [Header("Reference - Write")]
+    [SerializeField]
+    private FloatVariable _attackerRatio;
+
     [Header("Events out")]
     [SerializeField]
     private GameEvent _onPregame;
@@ -23,8 +27,10 @@ public class Referee : MonoBehaviour
 
     public void StartFirstTurn()
     {
+        CalculateAttackerRatio();
         Delay_StartFirstTurn().Forget();
     }
+
     private async UniTaskVoid Delay_StartFirstTurn()
     {
         await UniTask.Delay(System.TimeSpan.FromSeconds(1));
@@ -33,6 +39,7 @@ public class Referee : MonoBehaviour
 
     public void CheckTeamAppearance()
     {
+        CalculateAttackerRatio();
         if (_attackerCount.Value == 0)
         {
             _onDefenderWon.Raise();
@@ -50,5 +57,10 @@ public class Referee : MonoBehaviour
     public void SetupPregame()
     {
         _onPregame.Raise();
+    }
+
+    private void CalculateAttackerRatio()
+    {
+        _attackerRatio.Value = (float)_attackerCount.Value / (_attackerCount.Value + _defenderCount.Value);
     }
 }
