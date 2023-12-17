@@ -96,6 +96,7 @@ public class CharacterAnimator : MonoBehaviour
         gene = _cachedGenes[_axieId];
         Mixer.SpawnSkeletonAnimation(_animator, _axieId, gene);
 
+        await UniTask.NextFrame(); // SpawnSkeletonAnimtion handles very heavy logic, executing animation in next frame for smoother animation
         _onACharacterFinishedSetUp.Raise();
         _idleAnimationDict.TryGetValue(_axieId, out var idles);
         if (idles != null)
