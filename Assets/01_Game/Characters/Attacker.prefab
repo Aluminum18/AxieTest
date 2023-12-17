@@ -1317,12 +1317,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: e31baa147f838e146b4c0fc77b8b7603, type: 2}
+        m_TargetAssemblyTypeName: GameEvent, SoSystem
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onDisappeared:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8435319428277878694}
         m_TargetAssemblyTypeName: ObjectSpawner, Assembly-CSharp
         m_MethodName: Spawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bc08266d8bd7a914194b15fed34a7100, type: 2}
+        m_TargetAssemblyTypeName: GameEvent, SoSystem
+        m_MethodName: Raise
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

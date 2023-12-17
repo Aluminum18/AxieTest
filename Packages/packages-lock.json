@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "b4501332baa804066140a5a631fb6d1262b7fee6"
+      "hash": "dd39f4c6ec0c54dae82195781d4494f61675a7fc"
     },
     "com.aluminum.restclient": {
       "version": "https://github.com/Aluminum18/unity-lib.git?path=Assets/RestClient/Scripts/MainModules",
