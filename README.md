@@ -11,6 +11,7 @@ Assets used in project:
 - [Grid Map Coordinate](grid-map-coordinate)
 - [Character Attack](character-attack)
 - [Select and Expose An Axie Stats](select-and-expose-an-axie-stats)
+- [Defense Team Perk](defense-team-perk)
 
 ## Main Objects Communication
 Follow diagram describes communication of main objects
@@ -45,4 +46,7 @@ Axies can be selected and exposed their stats without attaching Physics componen
 ![image](https://github.com/Aluminum18/AxieTest/assets/14157400/f7edd164-cbbb-4b8d-9623-3c03d5a25804)
 
 When screen is clicked, using ray cast to identify the clicked point on the ground and write its position to "MapTouchPosition". "CharacterTracker" uses "MapSettings" to remap "MapTouchPosition" into map coordinate, then use coordinate to identify and have character at this coordinate write/expose their stats to "ExposedStats". "StatsPanel" then refresh its content based on updated data in "ExposedStats".
+
+## Defense Team Perk
+An Attack and Defense Perk are added to Defense Team so they have chance to win.
 
