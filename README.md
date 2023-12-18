@@ -1,7 +1,12 @@
 # AxieTest
 This project is a simple turn-based simulation. This document describes some highlight logic design and modules communication. The project logic is hard driven by Event and Assets. You can use this [extension](https://github.com/ThinhHB/Unity-SimpleReferenceFinder) (included in project) to aid your logic tracing.
 
-Content
+Assets used in project:
+- Libraries: [Dotween](https://dotween.demigiant.com/documentation.php), [UniTask](https://github.com/Cysharp/UniTask)
+- [Personal plugins](https://github.com/Aluminum18/unity-lib)
+- Assets: [Hovl Studio RPG](https://assetstore.unity.com/packages/vfx/particles/spells/rpg-vfx-bundle-133704), [Sidearm Studios](https://assetstore.unity.com/packages/audio/sound-fx/ultimate-sound-fx-bundle-151756), [GUI - Casual Fantasy](https://assetstore.unity.com/packages/2d/gui/gui-casual-fantasy-265651)
+
+## Content
 - [Main Objects communication](#main-objects-communication)
 - [Grid Map Coordinate](grid-map-coordinate)
 - [Character Attack](character-attack)
