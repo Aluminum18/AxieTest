@@ -9,6 +9,8 @@ public class ExtentAudioSource : MonoBehaviour
     private AudioSource _audioSource;
     [SerializeField]
     private AudioClip[] _randomList;
+    [SerializeField]
+    private int _throttleFrame = 5;
 
     private HashSet<AudioClip> _playedClips = new();
 
@@ -26,11 +28,11 @@ public class ExtentAudioSource : MonoBehaviour
         }
         _audioSource.PlayOneShot(clip);
         _playedClips.Add(clip);
-        NextFrame_ResetPlayedClip().Forget();
+        Throttle_ResetPlayedClip().Forget();
     }
-    private async UniTaskVoid NextFrame_ResetPlayedClip()
+    private async UniTaskVoid Throttle_ResetPlayedClip()
     {
-        await UniTask.NextFrame();
+        await UniTask.DelayFrame(_throttleFrame);
         _playedClips.Clear();
     }
 }
