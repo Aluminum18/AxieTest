@@ -8,10 +8,10 @@ Assets used in project:
 
 ## Content
 - [Main Objects communication](#main-objects-communication)
-- [Grid Map Coordinate](grid-map-coordinate)
-- [Character Attack](character-attack)
-- [Select and Expose An Axie Stats](select-and-expose-an-axie-stats)
-- [Defense Team Perk](defense-team-perk)
+- [Grid Map Coordinate](#grid-map-coordinate)
+- [Character Attack](#character-attack)
+- [Select and Expose An Axie Stats](#select-and-expose-an-axie-stats)
+- [Defense Team Perk](#defense-team-perk)
 
 ## Main Objects Communication
 Follow diagram describes communication of main objects
