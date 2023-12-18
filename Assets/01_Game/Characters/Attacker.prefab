@@ -1252,6 +1252,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _map: {fileID: 11400000, guid: f9e5b08bb13d04c44aeefc5a13091dce, type: 2}
+  _attackPerks: {fileID: 0}
+  _defensePerks: {fileID: 0}
   _onACharacterDefeated: {fileID: 11400000, guid: 2d8a6d6ae243bfc44ba7dd8d4d1935bb, type: 2}
   _onHit:
     m_PersistentCalls:

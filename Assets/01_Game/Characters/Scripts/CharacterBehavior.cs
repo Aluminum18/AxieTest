@@ -10,6 +10,10 @@ public class CharacterBehavior : MonoBehaviour
     [Header("Reference - Read")]
     [SerializeField]
     private GridMap _map;
+    [SerializeField]
+    private PerkList _attackPerks;
+    [SerializeField]
+    private PerkList _defensePerks;
 
     [SerializeField]
     private GameEvent _onACharacterDefeated;
@@ -27,6 +31,8 @@ public class CharacterBehavior : MonoBehaviour
     [SerializeField]
     private CharacterProperties _currentTarget;
     public CharacterProperties CurrentTarget => _currentTarget;
+
+    public bool Evade { get; set; }
 
     private bool _finishedTurn = false;
     private Vector3 _engagePosition = GridMap.UNDEFINED_POSITON;
@@ -143,6 +149,10 @@ public class CharacterBehavior : MonoBehaviour
             damage = 3;
         }
         _properties.CurrentAttackDamage = damage;
+        if (_attackPerks != null)
+        {
+            _attackPerks.TryConsumePerks(_properties);
+        }
 
         float animationDuration = _properties.Animator.DoAttackAnimation();
         Vector3 currentPos = _map.GetPosition(_properties.Movement.CurrentCoordinate);
@@ -151,7 +161,7 @@ public class CharacterBehavior : MonoBehaviour
         var attackMoveSequence = DOTween.Sequence();
         attackMoveSequence.Append(root.DOMove(attackPos, animationDuration / 2f).SetEase(Ease.InBack));
         attackMoveSequence.Append(root.DOMove(currentPos, animationDuration / 2f).SetEase(Ease.InOutSine));
-        Delay_ApplyDamage(damage, animationDuration / 2f).Forget();
+        Delay_ApplyDamage(_properties.CurrentAttackDamage, animationDuration / 2f).Forget();
     }
     private async UniTaskVoid Delay_ApplyDamage(int damage, float delay)
     {
@@ -165,6 +175,16 @@ public class CharacterBehavior : MonoBehaviour
         {
             return;
         }
+        if (_defensePerks != null)
+        {
+            _defensePerks.TryConsumePerks(_properties);
+        }
+        if (Evade)
+        {
+            Evade = false;
+            return;
+        }
+
 
         _onHit.Invoke();
         _properties.CurrentHp -= damage;

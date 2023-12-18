@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: _axieId
       value: 2724598
       objectReference: {fileID: 0}
+    - target: {fileID: 1621952702062955978, guid: e0da7f0b265f712489775d4296425914, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621952702062955978, guid: e0da7f0b265f712489775d4296425914, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2958222402540404945, guid: e0da7f0b265f712489775d4296425914, type: 3}
       propertyPath: m_Name
       value: Defender
@@ -64,6 +72,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6865793787733224939, guid: e0da7f0b265f712489775d4296425914, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6865793787733224939, guid: e0da7f0b265f712489775d4296425914, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7615885228573824898, guid: e0da7f0b265f712489775d4296425914, type: 3}
+      propertyPath: _attackPerks
+      value: 
+      objectReference: {fileID: 11400000, guid: 63753a1ebf01f0e4b801119b014dffb0, type: 2}
+    - target: {fileID: 7615885228573824898, guid: e0da7f0b265f712489775d4296425914, type: 3}
+      propertyPath: _defensePerks
+      value: 
+      objectReference: {fileID: 11400000, guid: bb8b7ede9d27abb4c9ca1ad4b60664d0, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
