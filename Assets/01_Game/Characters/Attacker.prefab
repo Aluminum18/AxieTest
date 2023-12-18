@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30b60159b6a0e54db130a7a75c62ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _axieId: 2724598
+  _axieId: 4191804
   _onACharacterFinishedSetUp: {fileID: 11400000, guid: 0dc03b957f67cd8419d223e84016c4a5, type: 2}
 --- !u!33 &1403173758568357875
 MeshFilter:

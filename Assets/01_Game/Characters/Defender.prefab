@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 75441362689099796, guid: e0da7f0b265f712489775d4296425914, type: 3}
       propertyPath: _axieId
-      value: 4191804
+      value: 2724598
       objectReference: {fileID: 0}
     - target: {fileID: 2958222402540404945, guid: e0da7f0b265f712489775d4296425914, type: 3}
       propertyPath: m_Name
